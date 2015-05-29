@@ -1,0 +1,12 @@
+{
+  "title": "Jit DevTools",
+  "name": "jit-dev-tools",
+  "version": "0.0.1",
+  "description": "DevTool panel for inspecting Jit internals",
+  "main": "lib/main",
+  "author": "Nicolas B. Pierron",
+  "engines": {
+    "firefox": ">=38.0a1"
+  },
+  "license": "MIT"
+}
