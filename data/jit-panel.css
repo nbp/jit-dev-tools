@@ -1,0 +1,90 @@
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: var(--theme-body-background);
+}
+
+#content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.view {
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+#enum-view {
+  flex-grow: 2;
+  flex-basis: 200px;
+  background-color: var(--theme-sidebar-background);
+  border-right-width: 1px;
+  border-right-style: solid;
+  border-right-color: var(--theme-splitter-color);
+}
+
+#graph-view {
+  flex-grow: 8;
+  flex-basis: 200px;
+  background-color: var(--theme-body-background);
+}
+
+
+#enum-view > ul {
+  display: block;
+  margin: 0;
+  padding: 0;
+  width:100%
+}
+
+#enum-view > ul > li {
+  list-style-type: none;
+  height: 2.5em;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: var(--theme-splitter-color);
+}
+
+#enum-view > ul > li.header {
+  height: 1.5em;
+  background-color: var(--theme-toolbar-background);
+}
+
+li.selected {
+  background-color: var(--theme-selection-background);
+}
+
+#enum-view > ul > li:not(first-child) {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#enum-view > ul > li > span:first-child {
+  width: 100%;
+  flex-grow: 1;
+  padding-left: 10px;
+  text-align: left;
+}
+#enum-view > ul > li > span:last-child {
+  width: 100%;
+  flex-grow: 1;
+  padding-right: 10px;
+  text-align: right;
+}

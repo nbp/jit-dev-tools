@@ -2,13 +2,20 @@
 <html>
 <head>
 <meta charset="utf-8"/>
+<link href="jit-panel.css" title="compact" rel="stylesheet" type="text/css">
 </head>
-<style type="text/css">
-body {
-  background-color: white;
-}
-</style>
+<script src="connection.js"></script>
+<script src="iongraph.js" async></script>
+<script src="viz.js" async></script>
 <body>
-<h1>Hello World!</h1>
+  <div id="content">
+    <div id="enum-view" class="view">
+      <ul id="compilation-instances-list">
+        <li class="header"><center>Compiled Scripts</center></li>
+      </ul>
+    </div>
+    <div id="graph-view" class="view">
+    </div>
+  </div>
 </body>
 </html>
