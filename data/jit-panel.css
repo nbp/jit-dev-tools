@@ -13,78 +13,159 @@ body {
 
 #content {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row;
   justify-content: flex-start;
-  align-content: center;
-  align-items: flex-start;
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-
-.view {
-  overflow: auto;
+  align-items: stretch;
   margin: 0;
   padding: 0;
   height: 100%;
 }
 
 #enum-view {
-  flex-grow: 2;
-  flex-basis: 200px;
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-width: 300px; /* TODO: Make this resizable */
+  max-width: 300px; /* TODO: Make this resizable */
   background-color: var(--theme-sidebar-background);
   border-right-width: 1px;
   border-right-style: solid;
   border-right-color: var(--theme-splitter-color);
 }
 
-#graph-view {
-  flex-grow: 8;
-  flex-basis: 200px;
-  background-color: var(--theme-body-background);
-}
-
-
-#enum-view > ul {
+div.script-list > ul {
   display: block;
   margin: 0;
   padding: 0;
-  width:100%
+  width: 100%;
 }
-
-#enum-view > ul > li {
+div.script-list > ul > li {
   list-style-type: none;
-  height: 2.5em;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-bottom-color: var(--theme-splitter-color);
+  /* border-bottom */
 }
-
-#enum-view > ul > li.header {
+div.script-list > ul > li.header {
   height: 1.5em;
+  text-align: center;
   background-color: var(--theme-toolbar-background);
 }
 
-li.selected {
-  background-color: var(--theme-selection-background);
-}
-
-#enum-view > ul > li:not(first-child) {
+div.script-list > ul > li > div.script-info {
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
+  flex-flow: column;
+  align-items: stretch;
+  height: 2.5em;
   width: 100%;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: var(--theme-splitter-color);
 }
-
-#enum-view > ul > li > span:first-child {
+div.script-list > ul > li > div.script-info > span:first-child {
   width: 100%;
   flex-grow: 1;
   padding-left: 10px;
   text-align: left;
 }
-#enum-view > ul > li > span:last-child {
-  width: 100%;
+div.script-list > ul > li > div.script-info > span:last-child {
   flex-grow: 1;
   padding-right: 10px;
   text-align: right;
+}
+div.script-list > ul > li.script-highlight > div.script-info {
+  background-color: var(--theme-selection-background);
+}
+
+div.script-inline {
+  display: none;
+}
+
+li.script-expand div.script-inline {
+  display: block;
+  margin-left: 20px;
+}
+li.script-expand div.script-info {
+  border-left-width: 1px;
+  border-left-style: solid;
+  border-left-color: var(--theme-splitter-color);
+}
+
+#graph-view {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 8;
+  background-color: var(--theme-body-background);
+  min-width: 0;
+}
+
+#graph-view-box {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+ul#graph-buttons {
+  display: flex;
+  flex-direction: row;
+  height: 1.5em;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: var(--theme-sidebar-background);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: var(--theme-splitter-color);
+}
+
+ul#graph-buttons > li {
+  flex-grow: 1;
+  list-style-type: none;
+  height: 1.5em;
+  text-align: center;
+}
+
+ul#graph-buttons > li:not(:first-child) {
+  border-left-width: 1px;
+  border-left-style: solid;
+  border-left-color: var(--theme-splitter-color);
+}
+
+#graph-content {
+  flex: 1;
+  display: flex;
+  overflow: auto;
+  min-height: 0; // XXXdholbert Unnecessary?
+  // align-self: center;
+}
+
+#graph-content-box {
+}
+
+#graph-preview {
+  display: none; /* experimental */
+  position: fixed;
+  top: 2.5em;
+  right: 1.5em;
+  height: 100px;
+  width: 100px;
+  border: 1px solid var(--theme-splitter-color);
+  background-image: -moz-element(#graph-content-box);
+  background-size: 100% 100%;
+}
+
+/* graphviz svg generated code */
+g.node {
+}
+
+g.node > title:nth-child(1) { /* ??? */
+}
+g.node> polygon:nth-child(2) { /* bounding box */
+}
+g.node > polygon:nth-child(3) { /* title box */
+  fill: var(--theme-sidebar-background);
+  stroke: black;
+}
+g.node > text:nth-child(4) { /* title */
+  fill: black;
+  stroke: none;
 }

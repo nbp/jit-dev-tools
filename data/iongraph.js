@@ -56,8 +56,17 @@ ${[e.write() for (e of this.edges)].join("\n")}
 }`;
 }
 
+const htmlMap = {
+  "&": "&amp;",
+  '"': "&quot;",
+  '<': "&lt;",
+  '>': "&gt;",
+};
 graphToDot.convertText = function (text) {
-  return text.replace(/[<>]/g, match => "%" + match.charCodeAt(0).toString(16));
+  return text.replace(/[<&>"]/g, match => {
+    // return "#" + match.charCodeAt(0).toString(16).toUpperCase();
+    return htmlMap[match];
+  });
 }
 
 
@@ -79,7 +88,7 @@ graphToDot.convertResumePoint = function (rp, mode) {
 
 graphToDot.convertInstruction = function (ins) {
   return `
-  ${graphToDot.convertResumePoint(ins.resumepoint, "At")}
+  ${graphToDot.convertResumePoint(ins.resumePoint, "At")}
   <tr>
     <td align="left" port="i${ins.id}">${ins.id}</td>
     <td align="left">
@@ -104,7 +113,7 @@ graphToDot.convertInstruction = function (ins) {
     <td align="left"><font color="grey50">memory ${ins.memInputs.join(" ")}</font></td>
     <td></td>
   </tr>`}
-  ${graphToDot.convertResumePoint(ins.resumepoint, "After")}
+  ${graphToDot.convertResumePoint(ins.resumePoint, "After")}
 `;
 }
 
@@ -113,7 +122,7 @@ graphToDot.convert = function (scripts, graph, select) {
   g.props['rankdir'] = 'TB';
   g.props['splines'] = 'true';
 
-  graph[select].blocks.forEach(block => {
+  graph[select].blocks.forEach((block, bidx) => {
     var n = new graphToDot.Node(`Block${block.number}`);
     n.props['shape'] = 'box';
     var ins;
@@ -124,24 +133,25 @@ graphToDot.convert = function (scripts, graph, select) {
       <font color="white">Block ${block.number}</font>
     </td>
   </tr>
-  ${graphToDot.convertResumePoint(block.resumepoint)}
+  ${graphToDot.convertResumePoint(block.resumePoint)}
   ${[graphToDot.convertInstruction(ins) for (ins of block.instructions)].join("")}
 </table>>
     `.replace("\n", " ").replace(/\s+</g, "<").replace(/>\s+/g, ">");
 
-    if (block.attributes.indexOf('backedge') != -1)
+    var bmir = graph.mir.blocks[bidx];
+    if (bmir.attributes.indexOf('backedge') != -1)
       n.props['color'] = 'red';
-    if (block.attributes.indexOf('loopheader') != -1)
+    if (bmir.attributes.indexOf('loopheader') != -1)
       n.props['color'] = 'green';
-    if (block.attributes.indexOf('splitedge') != -1)
+    if (bmir.attributes.indexOf('splitedge') != -1)
       n.props['style'] = 'dashed';
 
     g.addNode(n);
 
-    block.successors.forEach((succ, index) => {
+    bmir.successors.forEach((succ, index) => {
       var e = new graphToDot.Edge(n.name, `Block${succ}`);
 
-      if (block.successors.length == 2)
+      if (bmir.successors.length == 2)
         e.props["label"] = index == 0 ? "1" : "0";
 
       g.addEdge(e);
