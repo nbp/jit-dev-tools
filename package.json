@@ -6,7 +6,7 @@
   "main": "lib/main",
   "author": "Nicolas B. Pierron",
   "engines": {
-    "firefox": ">=38.0a1"
+    "firefox": ">=41.0a1"
   },
   "license": "MIT"
 }
