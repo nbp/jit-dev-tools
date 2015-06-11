@@ -1,7 +1,7 @@
 {
   "title": "Jit DevTools",
   "name": "jit-dev-tools",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "DevTool panel for inspecting Jit internals",
   "main": "lib/main",
   "author": "Nicolas B. Pierron",
