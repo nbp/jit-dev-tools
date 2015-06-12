@@ -168,6 +168,7 @@ var getScriptBlockStyle = (function () {
 
 var lastInline = null;
 function selectInlineScript() {
+  // li > div.script-box
   var p = this.parentNode;
   if (lastInline === p)
     return;
@@ -185,6 +186,7 @@ function selectInlineScript() {
 // graph, and display it.
 var lastSelected = null;
 function selectCompilation() {
+  // li > div.script-box
   var p = this.parentNode;
   if (lastSelected === p) {
     selectInlineScript.call(this);
@@ -201,6 +203,26 @@ function selectCompilation() {
   p.classList.add("script-expand");
   lastSelected = p;
   selectInlineScript.call(this);
+}
+
+// function used to request the removal on an entry.
+function requestRemoval(event) {
+  // li > div.script-box > div.close-button
+  var p = this.parentNode.parentNode;
+  connection.sendChromeMessage({
+    type: "remove-compilation",
+    id: p.id.replace("script-", "") | 0
+  });
+
+  // TODO: We should do some sort of transition before removing the element.
+
+  // Remove the element from the list of compiled scripts.
+  p.parentNode.removeChild(p);
+
+  // The close-button is within the script-box which has a handler to request
+  // the script to be displayed. To display and transfer the graph of each
+  // script, we stop the event propagation.
+  event.stopPropagation();
 }
 
 var graphContent = {
@@ -321,25 +343,46 @@ var graphContent = {
     }
     item.className = "side-menu-widget-item";
 
+    var closeButton = document.createElement("div");
+    closeButton.className = "empty-button";
+    if (id !== "") {
+      closeButton.className = "close-button";
+      closeButton.onclick = requestRemoval;
+    }
+
+    var scriptBox = document.createElement("div");
+    scriptBox.className = "script-box";
+    scriptBox.onclick = ev;
+
     var scriptInfo = document.createElement("div");
     scriptInfo.className = "script-info";
-    scriptInfo.onclick = ev;
+
     var spanName = document.createElement("span");
-    spanName.textContent = script.displayName;
-    scriptInfo.appendChild(spanName);
+    spanName.appendChild(document.createTextNode(script.displayName));
+
     var spanLoc = document.createElement("span");
     var loc = script.url.split('/');
     spanLoc.textContent = loc[loc.length - 1] + ":" + script.startLine;
-    scriptInfo.appendChild(spanLoc);
-    item.appendChild(scriptInfo);
 
     var scriptInline = document.createElement("div");
     scriptInline.className = "script-inline";
+
     var scriptList = document.createElement("div");
     scriptList.className = "script-list";
+
     var ul = document.createElement("ul");
+
+    scriptInfo.appendChild(spanName);
+    scriptInfo.appendChild(spanLoc);
+
+    scriptBox.appendChild(closeButton);
+    scriptBox.appendChild(scriptInfo);
+
     scriptList.appendChild(ul);
+
     scriptInline.appendChild(scriptList);
+
+    item.appendChild(scriptBox);
     item.appendChild(scriptInline);
 
     return item;

@@ -49,45 +49,71 @@ div.script-list > ul > li.header {
   text-align: center;
   background-color: var(--theme-toolbar-background);
 }
-
-div.script-list > ul > li > div.script-info {
-  display: flex;
-  /* flex-direction: column; */
-  flex-flow: column;
-  align-items: stretch;
-  height: 2.5em;
+div.script-box {
   width: 100%;
   border-top-width: 1px;
   border-top-style: solid;
   border-top-color: var(--theme-splitter-color);
+  border-left-width: 1px;
+  border-left-style: solid;
+  border-left-color: var(--theme-splitter-color);
 }
-div.script-list > ul > li > div.script-info > span:first-child {
+
+div.script-info {
+  display: flex;
+  /* flex-direction: column; */
+  flex-flow: column;
+  align-self: stretch;
+  align-items: stretch;
+  height: 2.5em;
+  width: 100%;
+}
+div.script-info > span:first-child {
   width: 100%;
   flex-grow: 1;
-  padding-left: 10px;
+  padding-left: 0px;
   text-align: left;
 }
-div.script-list > ul > li > div.script-info > span:last-child {
+div.script-info > span:last-child {
   flex-grow: 1;
   padding-right: 10px;
   text-align: right;
 }
-div.script-list > ul > li.script-highlight > div.script-info {
+
+li.script-highlight > div.script-box {
   background-color: var(--theme-selection-background);
+}
+div.script-box {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+div.close-button, div.empty-button {
+  display: block;
+  align-self: center;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+}
+div.close-button {
+  background-size: 16px 16px;
+  background-image: url("chrome://browser/skin/devtools/close@2x.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  filter: invert(60%);
+}
+div.close-button:hover {
+  filter: invert(80%);
 }
 
 div.script-inline {
   display: none;
 }
-
 li.script-expand div.script-inline {
   display: block;
   margin-left: 20px;
 }
 li.script-expand div.script-info {
-  border-left-width: 1px;
-  border-left-style: solid;
-  border-left-color: var(--theme-splitter-color);
 }
 
 #graph-view {
